@@ -1,3 +1,0 @@
-:HL["/_next/static/css/c950a642afba3b6f.css","style"]
-:HL["https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Cabinet+Grotesk:wght@300;400;500;700;800&family=Instrument+Serif:ital@0;1&display=swap","style"]
-0:{"buildId":"AakxaE2sdIUTr790KviZO","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":true},"staleTime":300}

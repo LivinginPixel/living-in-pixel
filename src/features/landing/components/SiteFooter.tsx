@@ -24,6 +24,16 @@ export function SiteFooter({ links, email }: SiteFooterProps) {
           </li>
         ))}
         <li>
+          <a href="/privacy" className="hover:text-white">
+            Privacy
+          </a>
+        </li>
+        <li>
+          <a href="/terms" className="hover:text-white">
+            Terms
+          </a>
+        </li>
+        <li>
           <a href={`mailto:${email}`} className="hover:text-white">
             {email}
           </a>
