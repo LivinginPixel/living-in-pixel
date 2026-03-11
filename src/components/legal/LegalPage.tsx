@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import Link from 'next/link';
+import { DirectionalLink } from '../navigation/DirectionalLink';
 import { getLegalNav, type LegalPageContent, type LegalRoute, type LegalSection, type NavRel, type NonEmptyArray } from '../../lib/legal';
 
 const HOME_LINK = {
@@ -65,67 +65,13 @@ const renderSection = (section: LegalSection): ReactNode => {
   }
 };
 
-const BACK_ICON_SIZES = {
-  sm: 'h-8 w-8',
-  md: 'h-9 w-9'
-} as const;
-
-type BackIconSize = keyof typeof BACK_ICON_SIZES;
-type BackIconTone = 'brand' | 'neutral';
-
-type BackIconProps = Readonly<{
-  size?: BackIconSize;
-  tone?: BackIconTone;
-}>;
-
-const BACK_ICON_TONE: Readonly<Record<BackIconTone, string>> = {
-  brand: 'text-lipBlue',
-  neutral: 'text-white'
-};
-
-const BackIcon = ({ size = 'md', tone = 'brand' }: BackIconProps) => (
-  <span
-    aria-hidden
-    className={`relative inline-flex items-center justify-center rounded-full ${BACK_ICON_SIZES[size]} text-white/80 transition-transform duration-200 group-hover:-translate-x-1`}
-  >
-    <span className="absolute inset-0 rounded-full border border-white/10 bg-white/5 transition-all duration-300 group-hover:border-lipBlue/40 group-hover:shadow-[0_0_32px_rgba(82,130,255,0.4)]" />
-    <span className="absolute inset-0 rounded-full border border-lipBlue/30 opacity-0 group-hover:opacity-100 motion-reduce:animate-none animate-[backPulse_2.6s_ease-out_infinite]" />
-    <svg
-      className={`relative h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5 ${BACK_ICON_TONE[tone]}`}
-      viewBox="0 0 20 20"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M11.5 4.5L6 10l5.5 5.5" />
-      <path d="M6 10h8" />
-    </svg>
-  </span>
-);
-
-type BackLinkProps = Readonly<{
-  href: string;
-  label: string;
-  className?: string;
-}>;
-
-const BackLink = ({ href, label, className }: BackLinkProps) => (
-  <Link
-    href={href}
-    className={`group inline-flex items-center gap-3 text-xs uppercase tracking-[2px] text-muted transition-colors hover:text-white ${className ?? ''}`}
-  >
-    <BackIcon />
-    <span>{label}</span>
-  </Link>
-);
-
 const BackToHomeLink = ({
   href = HOME_LINK.href,
   label = HOME_LINK.label,
   className
-}: BackToHomeLinkProps) => <BackLink href={href} label={label} className={className} />;
+}: BackToHomeLinkProps) => (
+  <DirectionalLink href={href} label={label} direction="back" className={className} />
+);
 
 const PAGER_PREFIX = {
   prev: 'Back to',
@@ -138,30 +84,20 @@ const buildPagerLabel = <R extends NavRel>(rel: R, route: LegalRoute): PagerLabe
   return label;
 };
 
-const PagerLink = <R extends NavRel>({ rel, route }: PagerLinkProps<R>) => {
-  if (rel === 'prev') {
-    return <BackLink href={route.href} label={buildPagerLabel(rel, route)} className="text-muted" />;
-  }
-
-  return (
-    <Link
-      href={route.href}
-      rel={rel}
-      className="inline-flex items-center gap-2 text-xs uppercase tracking-[2px] text-muted transition-colors hover:text-white"
-    >
-      <span>{buildPagerLabel(rel, route)}</span>
-      <span aria-hidden className="font-mono text-sm">
-        -&gt;
-      </span>
-    </Link>
-  );
-};
+const PagerLink = <R extends NavRel>({ rel, route }: PagerLinkProps<R>) => (
+  <DirectionalLink
+    href={route.href}
+    label={buildPagerLabel(rel, route)}
+    direction={rel === 'prev' ? 'back' : 'forward'}
+    rel={rel}
+  />
+);
 
 export function LegalPage({ content }: Readonly<{ content: LegalPageContent }>) {
   const nav = getLegalNav(content.slug);
 
   return (
-    <main className="min-h-screen cursor-auto px-6 py-24 lg:px-16">
+    <main className="min-h-screen px-6 py-24 lg:px-16">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-10">
         <BackToHomeLink />
 
