@@ -1,3 +1,7 @@
+const HERO_TYPE = {
+  subline: 'font-serif text-white/40'
+} as const;
+
 export function HeroSection() {
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-10 pb-[100px] pt-[160px] text-center lg:px-10">
@@ -10,16 +14,16 @@ export function HeroSection() {
       </div>
 
       <h1 className="animate-fadeUp font-display text-[clamp(48px,8vw,100px)] font-black leading-[0.95] tracking-[-3px] text-white opacity-0 [animation-delay:0.15s]">
-        We build
+        Software That
         <br />
-        <em className="not-italic text-lipBlue">digital</em> brands
+        <em className="not-italic text-lipBlue">Helps Businesses</em>
         <br />
-        <span className="font-[300] text-white/40">that convert.</span>
+        <span className="font-[300] text-white/40">0perate Smarter.</span>
       </h1>
 
       <p className="animate-fadeUp mt-4 max-w-[520px] text-[clamp(15px,2vw,18px)] leading-[1.7] text-muted opacity-0 [animation-delay:0.3s]">
-        Software engineering, social media architecture, and branded systems — built for founders
-        who can&apos;t afford to look amateur.
+        Custom software, business websites, and automation systems designed to
+        simplify operations and accelerate growth.
       </p>
 
       <div className="mt-[50px] flex animate-fadeUp flex-wrap justify-center gap-4 opacity-0 [animation-delay:0.45s]">
@@ -38,7 +42,9 @@ export function HeroSection() {
       </div>
 
       <div className="absolute bottom-10 left-1/2 flex -translate-x-1/2 animate-fadeUp flex-col items-center gap-2 opacity-0 [animation-delay:0.8s]">
-        <span className="text-[10px] uppercase tracking-[3px] text-muted">Scroll</span>
+        <span className="text-[10px] uppercase tracking-[3px] text-muted">
+          Scroll
+        </span>
         <div className="h-10 w-px animate-scrollPulse bg-[linear-gradient(to_bottom,#5282ff,transparent)]" />
       </div>
     </section>
