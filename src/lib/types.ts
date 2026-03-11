@@ -17,6 +17,7 @@ export interface CaseMetric {
 }
 
 export interface CaseStudy {
+  slug: string;
   title: string;
   description: string;
   tags: string[];

@@ -5,6 +5,7 @@ import type {
   Service,
   Testimonial,
 } from "../../../lib/types";
+import { projectCaseStudies } from "../../../lib/projects";
 
 export const navLinks: NavLink[] = [
   { href: "#services", label: "Services" },
@@ -44,40 +45,7 @@ export const services: Service[] = [
   },
 ];
 
-export const caseStudies: CaseStudy[] = [
-  {
-    featured: true,
-    title: "PocketLedger — Personal Finance Dashboard",
-    description:
-      "Full-stack web application for a Lagos-based fintech startup. Built a real-time spending analytics dashboard, onboarding flow, and API integrations — from zero to beta in 8 weeks.",
-    tags: ["Fintech", "Web App", "Dashboard"],
-    metrics: [
-      { value: "8", suffix: "wks", label: "Zero to launch" },
-      { value: "3", suffix: "k+", label: "Beta users" },
-      { value: "98", suffix: "%", label: "Uptime" },
-    ],
-  },
-  {
-    title: "Nexora — Brand System & Template Suite",
-    description:
-      "Complete brand identity and 40+ Canva & Figma templates for a B2B SaaS startup's social and sales collateral.",
-    tags: ["Branding", "Templates"],
-    metrics: [
-      { value: "40", suffix: "+", label: "Templates built" },
-      { value: "2", suffix: "x", label: "Engagement lift" },
-    ],
-  },
-  {
-    title: "Flowstate — LinkedIn & Instagram Architecture",
-    description:
-      "Rebuilt the entire social presence for a productivity startup — page setup, content pillars, and 60-day template library.",
-    tags: ["Social Media", "Strategy"],
-    metrics: [
-      { value: "4", suffix: "x", label: "Follower growth" },
-      { value: "60", label: "Templates delivered" },
-    ],
-  },
-];
+export const caseStudies: CaseStudy[] = projectCaseStudies;
 
 export const processSteps: ProcessStep[] = [
   {
