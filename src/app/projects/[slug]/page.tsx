@@ -93,12 +93,14 @@ const renderSection = (section: ProjectSection) => {
 
 export const generateStaticParams = () => PROJECT_SLUGS.map((slug) => ({ slug }));
 
-export const generateMetadata = ({ params }: { params: ProjectParams }): Metadata => {
-  if (!isProjectSlug(params.slug)) {
+export const generateMetadata = async ({ params }: { params: Promise<ProjectParams> }): Promise<Metadata> => {
+  const { slug } = await params;
+
+  if (!isProjectSlug(slug)) {
     return { title: `Project | ${SITE_NAME}` };
   }
 
-  const project = getProjectBySlug(params.slug);
+  const project = getProjectBySlug(slug);
 
   if (!project) {
     return { title: `Project | ${SITE_NAME}` };
@@ -110,12 +112,14 @@ export const generateMetadata = ({ params }: { params: ProjectParams }): Metadat
   };
 };
 
-export default function ProjectPage({ params }: { params: ProjectParams }) {
-  if (!isProjectSlug(params.slug)) {
+export default async function ProjectPage({ params }: { params: Promise<ProjectParams> }) {
+  const { slug } = await params;
+
+  if (!isProjectSlug(slug)) {
     notFound();
   }
 
-  const project = getProjectBySlug(params.slug);
+  const project = getProjectBySlug(slug);
 
   if (!project) {
     notFound();

@@ -21,7 +21,7 @@ export interface CaseStudy {
   title: string;
   description: string;
   tags: string[];
-  metrics?: CaseMetric[];
+  metrics?: readonly CaseMetric[];
   featured?: boolean;
 }
 
