@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: toAbsoluteUrl('/logo.svg'),
+        url: toAbsoluteUrl('/logo-dark.svg'),
         width: 163,
         height: 109,
         alt: `${SITE_NAME} logo`
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `${SITE_SHORT_NAME} | ${SITE_NAME}`,
     description: SITE_DESCRIPTION,
-    images: [toAbsoluteUrl('/logo.svg')]
+    images: [toAbsoluteUrl('/logo-dark.svg')]
   },
   robots: {
     index: true,
@@ -60,9 +60,9 @@ export const metadata: Metadata = {
     }
   },
   icons: {
-    icon: '/icon.svg',
-    shortcut: '/icon.svg',
-    apple: '/icon.svg'
+    icon: '/favico.png',
+    shortcut: '/favico.png',
+    apple: '/favico.png'
   },
   manifest: '/manifest.webmanifest'
 };
