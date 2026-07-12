@@ -8,6 +8,7 @@ export interface Service {
   id: string;
   title: string;
   description: string;
+  outcome?: string;
 }
 
 export interface CaseMetric {
@@ -23,6 +24,9 @@ export interface CaseStudy {
   tags: string[];
   metrics?: readonly CaseMetric[];
   featured?: boolean;
+  image?: string;
+  imageAlt?: string;
+  industry?: string;
 }
 
 export interface ProcessStep {
@@ -38,7 +42,10 @@ export interface Testimonial {
   role: string;
 }
 
-interface socialMediaLink {
+export type SocialPlatform = 'instagram' | 'facebook' | 'tiktok' | 'whatsapp';
+
+export interface SocialLink {
+  platform: SocialPlatform;
   href: string;
   label: string;
 }

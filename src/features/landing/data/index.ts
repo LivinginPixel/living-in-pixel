@@ -5,5 +5,8 @@ export {
   navLinks,
   processSteps,
   services,
-  testimonials
+  servicesIntro,
+  socialLinks,
+  testimonials,
+  whatsappNumber
 } from './content';

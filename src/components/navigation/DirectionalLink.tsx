@@ -30,7 +30,7 @@ const ICON_SIZE = {
 
 const ICON_TONE = {
   brand: 'text-lipBlue',
-  neutral: 'text-white'
+  neutral: 'text-ink'
 } as const;
 
 const ICON_ROTATE = {
@@ -49,19 +49,19 @@ const ICON_SHIFT_INNER = {
 } as const;
 
 const VARIANT_CLASSES = {
-  text: 'text-xs uppercase tracking-[2px] text-muted hover:text-white',
+  text: 'text-xs font-medium uppercase tracking-[0.12em] text-muted hover:text-ink',
   pill:
-    'rounded-full border border-white/[0.06] px-9 py-4 text-sm text-textMain hover:border-white/20 hover:text-white'
+    'rounded-full border border-border bg-white px-6 py-3 text-sm font-medium text-ink hover:border-ink/25 hover:bg-surface'
 } as const satisfies Readonly<Record<LinkVariant, string>>;
 
 const DirectionalIcon = ({ direction, tone, size }: IconProps) => (
   <span
     aria-hidden
-    className={`relative inline-flex items-center justify-center rounded-full ${ICON_SIZE[size]} text-white/80 transition-transform duration-200 ${
+    className={`relative inline-flex items-center justify-center rounded-full ${ICON_SIZE[size]} text-ink/70 transition-transform duration-200 ${
       ICON_SHIFT[direction]
     }`}
   >
-    <span className="absolute inset-0 rounded-full border border-white/10 bg-white/5 transition-all duration-300 group-hover:border-lipBlue/40 group-hover:shadow-[0_0_32px_rgba(82,130,255,0.4)]" />
+    <span className="absolute inset-0 rounded-full border border-border bg-surface transition-all duration-300 group-hover:border-lipBlue/40 group-hover:shadow-[0_0_28px_rgba(59,107,240,0.25)]" />
     <span className="absolute inset-0 rounded-full border border-lipBlue/30 opacity-0 group-hover:opacity-100 motion-reduce:animate-none animate-[backPulse_2.6s_ease-out_infinite]" />
     <svg
       className={`relative h-4 w-4 transition-transform duration-200 ${ICON_SHIFT_INNER[direction]} ${

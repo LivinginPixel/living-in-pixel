@@ -7,22 +7,34 @@ interface TestimonialsSectionProps {
 
 export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) {
   return (
-    <section id="about" className="mx-auto max-w-6xl px-6 pb-24 lg:px-16">
-      <SectionHeading label="What Clients Say" title="The receipts." />
+    <section id="about" className="mx-auto max-w-[1180px] px-6 pb-24 pt-8 lg:px-16 lg:pb-28">
+      <SectionHeading
+        label="In their words"
+        title={
+          <>
+            The people we <span className="text-muted">work with.</span>
+          </>
+        }
+      />
 
-      <div className="mt-12 grid gap-4 md:grid-cols-3">
+      <div className="mt-12 grid gap-5 md:grid-cols-3">
         {testimonials.map((testimonial) => (
-          <article key={testimonial.name} className="reveal rounded-2xl border border-white/10 bg-surface p-8">
-            <div className="mb-5 text-lipBlue">★★★★★</div>
-            <p className="mb-6 font-serif text-lg italic leading-7 text-white/75">
-              &quot;{testimonial.quote}&quot;
+          <article
+            key={testimonial.role}
+            className="reveal flex flex-col rounded-3xl border border-border bg-white p-8 transition-shadow duration-300 hover:shadow-[0_16px_40px_-24px_rgba(31,32,35,0.3)]"
+          >
+            <div className="mb-5 text-lipBlue" aria-hidden>
+              ★★★★★
+            </div>
+            <p className="mb-6 flex-1 text-[17px] leading-relaxed text-ink/85">
+              &ldquo;{testimonial.quote}&rdquo;
             </p>
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-lipBlue/20 bg-lipBlue/10 font-display text-sm font-black text-lipBlue">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-lipBlueSoft font-display text-sm font-semibold text-lipBlue">
                 {testimonial.initials}
               </div>
               <div>
-                <div className="text-sm font-bold text-white">{testimonial.name}</div>
+                <div className="text-sm font-semibold text-ink">{testimonial.name}</div>
                 <div className="text-xs text-muted">{testimonial.role}</div>
               </div>
             </div>

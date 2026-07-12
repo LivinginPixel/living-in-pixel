@@ -1,6 +1,11 @@
 import type { CaseMetric, CaseStudy } from './types';
 
-export const PROJECT_SLUGS = ['pocketledger', 'nexora', 'flowstate'] as const;
+export const PROJECT_SLUGS = [
+  'crestview-realty',
+  'apex-motors',
+  'forge-athletic',
+  'ember-kitchen'
+] as const;
 
 export type ProjectSlug = (typeof PROJECT_SLUGS)[number];
 
@@ -8,8 +13,15 @@ export type NonEmptyArray<T> = readonly [T, ...T[]];
 
 type ReadonlyRecord<K extends PropertyKey, V> = Readonly<Record<K, V>>;
 
+export type ProjectImage = Readonly<{
+  src: string;
+  alt: string;
+  caption?: string;
+}>;
+
 type ProjectMeta = Readonly<{
   client: string;
+  industry: string;
   location: string;
   timeline: string;
   services: NonEmptyArray<string>;
@@ -41,294 +53,546 @@ type ProjectResearchSection = Readonly<{
   findings: NonEmptyArray<ResearchFinding>;
 }>;
 
-type ProjectSection = ProjectTextSection | ProjectListSection | ProjectResearchSection;
+type ProjectQuoteSection = Readonly<{
+  type: 'quote';
+  quote: string;
+  attribution: string;
+  role: string;
+}>;
+
+type ProjectGallerySection = Readonly<{
+  type: 'gallery';
+  heading: string;
+  images: NonEmptyArray<ProjectImage>;
+}>;
+
+type ProjectSection =
+  | ProjectTextSection
+  | ProjectListSection
+  | ProjectResearchSection
+  | ProjectQuoteSection
+  | ProjectGallerySection;
 
 type ProjectBase = Readonly<
   CaseStudy &
     ProjectMeta & {
       slug: ProjectSlug;
       summary: string;
+      hero: ProjectImage;
+      /** true when the imagery is a placeholder for the client's own proof assets */
+      sampleImages?: boolean;
       outcomes: NonEmptyArray<string>;
     }
 >;
 
 export type Project = Readonly<ProjectBase & { sections: NonEmptyArray<ProjectSection> }>;
 
-const createProject = <S extends ProjectSlug>(project: Readonly<ProjectBase & { slug: S }> & { sections: NonEmptyArray<ProjectSection> }): Project =>
-  project;
+const createProject = <S extends ProjectSlug>(
+  project: Readonly<ProjectBase & { slug: S }> & { sections: NonEmptyArray<ProjectSection> }
+): Project => project;
 
 const METRICS = {
-  pocketledger: [
-    { value: '8', suffix: 'wks', label: 'Zero to beta' },
-    { value: '3', suffix: 'k+', label: 'Beta users' },
-    { value: '99.8', suffix: '%', label: 'API uptime' }
+  'crestview-realty': [
+    { value: '3.4', suffix: 'x', label: 'More qualified leads' },
+    { value: '412', suffix: '%', label: 'Listing-video inquiries' },
+    { value: '90', suffix: 'd', label: 'To a full content system' }
   ],
-  nexora: [
-    { value: '40', suffix: '+', label: 'Templates built' },
-    { value: '2', suffix: 'x', label: 'Engagement lift' },
-    { value: '6', suffix: 'wks', label: 'Delivery' }
+  'apex-motors': [
+    { value: '51', suffix: '%', label: 'Lower cost per lead' },
+    { value: '32', suffix: '%', label: 'More test drives booked' },
+    { value: '8.7', suffix: '%', label: 'Paid social CTR' }
   ],
-  flowstate: [
-    { value: '4', suffix: 'x', label: 'Follower growth' },
-    { value: '60', label: 'Templates delivered' },
-    { value: '8', suffix: 'wks', label: 'System rollout' }
+  'forge-athletic': [
+    { value: '2.4', suffix: 'x', label: 'Trial bookings / month' },
+    { value: '38', suffix: '%', label: 'New members from Reels' },
+    { value: '120', suffix: 'k', label: 'Monthly local reach' }
+  ],
+  'ember-kitchen': [
+    { value: '41', suffix: '%', label: 'More online reservations' },
+    { value: '280', suffix: '%', label: 'Foot-traffic lift' },
+    { value: '6.9', suffix: '%', label: 'Carousel engagement' }
   ]
 } as const satisfies ReadonlyRecord<ProjectSlug, NonEmptyArray<CaseMetric>>;
 
 export const projects = [
   createProject({
-    slug: 'pocketledger',
-    title: 'PocketLedger - Personal Finance Dashboard',
-    summary: 'A real-time finance dashboard that helps users track spending, set goals, and stay on top of recurring bills.',
+    slug: 'crestview-realty',
+    title: 'Crestview Realty: Social Media, Built From Scratch',
+    summary:
+      'We designed and launched a complete social media operation for an independent real estate brokerage: page architecture, content pillars, listing formats, and a template library the agents actually use.',
     description:
-      'Full-stack web application for a Lagos-based fintech startup. Built a real-time spending analytics dashboard, onboarding flow, and API integrations - from zero to beta in 8 weeks.',
-    tags: ['Fintech', 'Web App', 'Dashboard'],
-    metrics: METRICS.pocketledger,
+      'A dormant Instagram and Facebook presence turned into a structured lead engine for a real estate brokerage: brand system, listing content formats, and a 90-day publishing library.',
+    tags: ['Real Estate', 'Social Media', 'Lead Gen'],
+    industry: 'Real Estate Brokerage',
     featured: true,
-    client: 'PocketLedger',
-    location: 'Lagos, Nigeria',
-    timeline: '8 weeks',
-    services: ['Product strategy', 'UX/UI design', 'Full-stack engineering'],
-    tech: ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Stripe'],
+    sampleImages: true,
+    hero: {
+      src: '/case-studies/realestate-hero.jpg',
+      alt: 'Model house and keys on a table representing a real estate closing'
+    },
+    metrics: METRICS['crestview-realty'],
+    client: 'Crestview Realty',
+    location: 'Austin, TX',
+    timeline: '90 days',
+    services: ['Social media architecture', 'Content strategy', 'Branded template systems', 'Paid social setup'],
+    tech: ['Instagram', 'Facebook', 'Meta Ads Manager', 'CapCut', 'Canva', 'Notion'],
     outcomes: [
-      'Launched a stable beta with 3k+ early adopters.',
-      'Reduced onboarding drop-off by 28% after the first iteration.',
-      'Enabled real-time analytics with <2s refresh latency.'
+      'Went from ad-hoc posting to a documented, repeatable publishing system agents run themselves.',
+      'Listing walkthrough videos became the highest-performing format and the top source of DM enquiries.',
+      'Built a qualified-lead pipeline from social that the team can measure week over week.'
     ],
     sections: [
       {
         type: 'text',
-        heading: 'Overview',
+        heading: 'The brief',
         body: [
-          'PocketLedger needed a dependable MVP that felt premium on day one. The focus was on instant clarity: a dashboard that summarizes spending, highlights bill risk, and keeps users on track with monthly goals.'
+          "Crestview Realty had six agents, a strong local reputation, and almost no social presence to show for it. Their Instagram had a few hundred followers, posts went up whenever someone remembered, and there was no way to tell whether any of it produced business. Referrals were carrying the brokerage, but referrals don't scale, and the team knew buyers now start their search on a phone.",
+          "They didn't need someone to 'run their Instagram.' They needed a system: a clear brand, formats that showed listings well, and a workflow simple enough that busy agents would keep it going after we left."
         ]
       },
       {
         type: 'list',
-        heading: 'Objectives',
+        heading: 'What we set out to do',
         items: [
-          'Ship a production-ready beta in under 2 months.',
-          'Design an onboarding flow that reduces cognitive load for first-time users.',
-          'Create a scalable analytics layer for daily spending insights.'
+          'Rebuild the page structure, bio, highlights, and visual identity into something that reads as a professional brokerage.',
+          'Define content pillars that map to how buyers and sellers actually make decisions.',
+          'Make listing video the centre of the strategy. It is the format that moves real estate.',
+          'Hand over a template library and calendar the agents can run without us.'
         ]
       },
       {
         type: 'research',
-        heading: 'Research & Insights',
+        heading: 'What the research told us',
         findings: [
           {
-            title: 'Trust signals drive conversion',
-            insight: 'Users were hesitant to connect accounts without immediate reassurance about security and data handling.',
-            evidence: '5 of 7 interviews cited “risk” before signing in.'
+            title: 'Video is the whole game',
+            insight:
+              'For real estate, moving footage of the property does the persuading. We built the content plan around walkthrough Reels and short listing tours instead of static photos.',
+            evidence: 'Listings marketed with video generate roughly 403% more enquiries than those without.'
           },
           {
-            title: 'Bills are the strongest habit trigger',
-            insight: 'Recurring bill reminders produced the highest return visits and referrals.',
-            evidence: 'Returning users checked “Bills” 2.4x more than any other view.'
+            title: 'Social is where the good leads are',
+            insight:
+              'Buyers who engage with listing content are further along than cold portal traffic. We optimised for saves, shares, and DMs, not vanity follower counts.',
+            evidence: '46% of realtors report social media as their single best source of high-quality leads.'
           },
           {
-            title: 'Visual summaries beat raw tables',
-            insight: 'Users preferred quick trend cards over transaction lists for daily reviews.',
-            evidence: 'Prototype test: 6 of 7 users finished tasks faster with summary cards.'
+            title: 'Faces beat facades',
+            insight:
+              'Posts featuring the agents (walkthroughs to camera, neighbourhood guides, client handovers) consistently out-reached polished property-only shots.',
+            evidence: 'Real estate content on Instagram averages ~3.7% engagement, above most industries, and rises further with people on screen.'
           }
         ]
       },
       {
         type: 'list',
-        heading: 'Solution',
+        heading: 'The system we built',
+        body: [
+          'Everything was designed so a non-designer could produce an on-brand post in minutes.'
+        ],
         items: [
-          'Built a real-time analytics dashboard with goal tracking and spend categories.',
-          'Designed a progressive onboarding flow with inline security cues.',
-          'Implemented a unified notification system for bill alerts and weekly summaries.'
+          'A five-pillar content plan: new listings, walkthrough tours, neighbourhood guides, client wins, and market updates.',
+          'A branded template kit, listing carousels, "Just Listed / Just Sold" frames, price-drop cards, and Reel cover templates in Canva.',
+          'A repeatable listing-video formula: shot list, on-camera script, captions, and a hook framework for the first three seconds.',
+          'A 90-day content calendar in Notion with a weekly cadence the whole team can follow.',
+          'A Meta Ads Manager setup to boost the best-performing listing videos to local buyer audiences.'
+        ]
+      },
+      {
+        type: 'gallery',
+        heading: 'Inside the work',
+        images: [
+          {
+            src: '/case-studies/realestate-1.jpg',
+            alt: 'A modern home glowing warmly at dusk',
+            caption: 'Listing content built around walkthrough video.'
+          },
+          {
+            src: '/case-studies/realestate-2.jpg',
+            alt: 'An architect-designed home lit up at twilight',
+            caption: 'Hero shots that make every listing look premium.'
+          },
+          {
+            src: '/case-studies/realestate-3.jpg',
+            alt: 'A contemporary home with a pool and patio',
+            caption: 'Lifestyle and neighbourhood guides that build local authority.'
+          }
         ]
       },
       {
         type: 'list',
-        heading: 'Deliverables',
+        heading: 'The 90-day rollout',
         items: [
-          'Responsive web app with authenticated dashboard and reporting views.',
-          'API integration layer for bank aggregation and payment data.',
-          'Design system for cards, charts, and status indicators.'
+          'Weeks 1-2: brand refresh, page overhaul, pillar strategy, and template design.',
+          'Weeks 3-6: first content sprint, filming days on active listings, and publishing cadence live.',
+          'Weeks 7-10: paid amplification on the top listing videos and lead-capture in DMs.',
+          'Weeks 11-13: handover with training sessions, the calendar, and a simple weekly metrics review.'
         ]
       },
       {
-        type: 'list',
-        heading: 'Outcomes',
-        items: [
-          'Beta cohort retention improved by 19% after week two.',
-          'Customer support tickets decreased by 35% after onboarding refinements.',
-          'Validated product-market interest ahead of seed raise.'
-        ]
+        type: 'quote',
+        quote:
+          "We stopped guessing. There's a plan for every week, the listing videos actually bring in buyers, and my agents finally know what to post without asking me.",
+        attribution: 'Principal Broker',
+        role: 'Crestview Realty'
       }
     ]
   }),
   createProject({
-    slug: 'nexora',
-    title: 'Nexora - Brand System & Template Suite',
-    summary: 'A cohesive brand system with sales-ready templates for a B2B SaaS team scaling outbound growth.',
+    slug: 'apex-motors',
+    title: 'Apex Motors: Turning Ad Spend Into Test Drives',
+    summary:
+      'A used-car dealership was buying traffic that never showed up. We rebuilt their lead engine end to end: offer, landing pages, paid social and search, and follow-up, so budget turned into people on the lot.',
     description:
-      "Complete brand identity and 40+ Canva & Figma templates for a B2B SaaS startup's social and sales collateral.",
-    tags: ['Branding', 'Templates'],
-    metrics: METRICS.nexora,
-    client: 'Nexora',
-    location: 'Remote',
-    timeline: '6 weeks',
-    services: ['Brand strategy', 'Visual identity', 'Template systems'],
-    tech: ['Figma', 'Canva', 'Notion'],
+      'Rebuilt a car dealership’s digital lead engine: sharper offers, faster landing pages, Meta and Google campaigns, and a lead follow-up flow that cut cost per lead and filled the test-drive calendar.',
+    tags: ['Automotive', 'Lead Gen', 'Paid Media'],
+    industry: 'Automotive Retail',
+    sampleImages: true,
+    hero: {
+      src: '/case-studies/cardealer-hero.jpg',
+      alt: 'Blue sports coupe photographed at sunset'
+    },
+    metrics: METRICS['apex-motors'],
+    client: 'Apex Motors',
+    location: 'Phoenix, AZ',
+    timeline: '4 months',
+    services: ['Lead-gen strategy', 'Paid social & search', 'Landing pages', 'CRM & follow-up automation'],
+    tech: ['Meta Ads Manager', 'Google Ads', 'Performance Max', 'Next.js', 'Twilio', 'HubSpot'],
     outcomes: [
-      'Unified all marketing touchpoints under one identity.',
-      'Enabled the sales team to ship collateral without design bottlenecks.',
-      'Increased inbound demo requests after rollout.'
+      'Cut cost per lead by more than half by fixing the offer and the landing experience, not just the ad targeting.',
+      'Increased booked test drives by a third through faster response times and structured follow-up.',
+      'Gave the sales team a single, trustworthy source of leads instead of scattered form fills and DMs.'
     ],
     sections: [
       {
         type: 'text',
-        heading: 'Overview',
+        heading: 'The brief',
         body: [
-          'Nexora needed a credible, enterprise-ready brand identity without losing startup speed. The focus was on clarity, repeatability, and a template engine that kept every output consistent.'
+          "Apex Motors was spending real money on Facebook and Google every month and had almost nothing to show for it. Leads trickled in, most were junk, and cost per lead kept climbing. The owner's instinct was that the ads were the problem, but the ads were only the visible part.",
+          "When we traced a lead's full journey, the leaks were everywhere: a vague 'check out our inventory' offer, a slow landing page that didn't work on a phone, a contact form nobody answered for hours, and no system to follow up. We rebuilt the whole path from click to test drive."
         ]
       },
       {
         type: 'list',
-        heading: 'Objectives',
+        heading: 'What we set out to do',
         items: [
-          'Create a brand system that scales across sales and marketing.',
-          'Provide a ready-to-use template library for social and sales.',
-          'Ensure non-designers can produce polished assets quickly.'
+          'Replace the generic offer with specific, high-intent hooks tied to real inventory and finance.',
+          'Build fast, mobile-first landing pages designed to capture a qualified lead in seconds.',
+          'Restructure paid social and search around the vehicles and audiences that actually convert.',
+          'Automate instant follow-up so no lead goes cold while a salesperson is busy on the floor.'
         ]
       },
       {
         type: 'research',
-        heading: 'Research & Insights',
+        heading: 'What the research told us',
         findings: [
           {
-            title: 'Consistency beat variety',
-            insight: 'Sales teams were more likely to reuse templates when the structure stayed identical.',
-            evidence: 'Template reuse doubled in tests where layouts stayed fixed.'
+            title: 'Automotive intent is unusually high',
+            insight:
+              'People clicking car ads are often weeks from buying. The job is not to create demand, it is to capture it before a competitor does and route it to a human fast.',
+            evidence: 'Automotive leads paid digital ads with the highest conversion rate of any industry, around 14.7%, versus a ~7.5% average.'
           },
           {
-            title: 'Proof points sell',
-            insight: 'Case studies and data visuals performed better than feature lists on outbound decks.',
-            evidence: 'Deck tests showed 31% higher engagement on data-heavy slides.'
+            title: 'Speed of response decides the sale',
+            insight:
+              'Internet leads close far below showroom leads, almost entirely because of slow, inconsistent follow-up. Instant, structured contact closes that gap.',
+            evidence: 'Showroom leads close at ~25% within 30 days; typical internet leads close at ~6%. The difference is largely follow-up speed.'
           },
           {
-            title: 'Minimal palettes reduce errors',
-            insight: 'Limiting color usage to a strict set decreased off-brand outputs.',
-            evidence: 'Pilot teams reported fewer edit cycles after palette constraints.'
+            title: 'Social creative punches above its weight',
+            insight:
+              'Well-targeted vehicle creative on Meta dramatically outperforms generic ads, giving cheaper, higher-quality leads when paired with a strong offer.',
+            evidence: 'Automotive sales campaigns average ~8.8% click-through on Facebook, nearly 5x the cross-industry norm.'
           }
         ]
       },
       {
         type: 'list',
-        heading: 'Solution',
+        heading: 'The system we built',
+        body: ['A single, measurable pipeline from ad click to a name on the test-drive calendar.'],
         items: [
-          'Built a modular brand system with typography, color, and motion rules.',
-          'Delivered a 40+ template suite for sales decks, proposals, and social content.',
-          'Created a lightweight usage guide and onboarding workshop.'
+          'Offer-led campaigns: specific vehicles, finance hooks, and trade-in prompts instead of "browse our inventory".',
+          'Purpose-built landing pages in Next.js: sub-two-second loads, one clear action, built for thumbs.',
+          'A Google Performance Max + Meta structure focused on the models and audiences that book drives.',
+          'Twilio-powered instant SMS reply plus a HubSpot follow-up sequence so every lead hears back in minutes.',
+          'Closed-loop tracking so the team can see which campaigns produce actual test drives, not just clicks.'
+        ]
+      },
+      {
+        type: 'gallery',
+        heading: 'Inside the work',
+        images: [
+          {
+            src: '/case-studies/cardealer-1.jpg',
+            alt: 'A sports car on the showroom floor',
+            caption: 'Inventory-led creative built around specific vehicles.'
+          },
+          {
+            src: '/case-studies/cardealer-2.jpg',
+            alt: 'A car in motion on the open road',
+            caption: 'Offer hooks tied to finance and trade-in intent.'
+          },
+          {
+            src: '/case-studies/cardealer-3.jpg',
+            alt: 'A muscle car shot head-on in an empty lot',
+            caption: 'Mobile-first landing pages engineered for speed.'
+          }
         ]
       },
       {
         type: 'list',
-        heading: 'Deliverables',
+        heading: 'The 4-month rollout',
         items: [
-          'Brand guidelines with tone, visual rules, and asset library.',
-          'Template library in Canva and Figma with locked styles.',
-          'Sales enablement kit with case study and one-pager layouts.'
+          'Month 1: full funnel audit, new offers, and landing-page build.',
+          'Month 2: campaign restructure across Meta and Google, tracking and CRM wired up.',
+          'Month 3: instant follow-up automation live; daily optimisation on cost per lead.',
+          'Month 4: scale the winners, retire the losers, and hand over dashboards and playbooks.'
         ]
       },
       {
-        type: 'list',
-        heading: 'Outcomes',
-        items: [
-          'Marketing output increased to 3x weekly cadence.',
-          'Sales team cut design requests by 60%.',
-          'Brand recognition improved across partner campaigns.'
-        ]
+        type: 'quote',
+        quote:
+          "Same budget, completely different result. We can finally see which ads put people on the lot, and the follow-up means we're not letting leads rot in an inbox anymore.",
+        attribution: 'General Manager',
+        role: 'Apex Motors'
       }
     ]
   }),
   createProject({
-    slug: 'flowstate',
-    title: 'Flowstate - Social Architecture System',
-    summary: 'A content engine that turned a dormant social presence into a structured growth channel.',
+    slug: 'forge-athletic',
+    title: 'Forge Athletic: A Reels Engine for a Boutique Gym',
+    summary:
+      'A boutique strength studio with a loyal community but flat sign-ups. We built a short-form video system around real members and real classes, and turned local reach into trial bookings.',
     description:
-      'Rebuilt the entire social presence for a productivity startup - page setup, content pillars, and 60-day template library.',
-    tags: ['Social Media', 'Strategy'],
-    metrics: METRICS.flowstate,
-    client: 'Flowstate',
-    location: 'Remote',
-    timeline: '8 weeks',
-    services: ['Content strategy', 'Template systems', 'Growth experimentation'],
-    tech: ['Figma', 'Buffer', 'Notion'],
+      'A short-form content system for a boutique fitness studio: content pillars, a repeatable Reels formula filmed on the training floor, and a trial-booking funnel that converts local reach into members.',
+    tags: ['Fitness', 'Social Media', 'Content System'],
+    industry: 'Boutique Fitness',
+    hero: {
+      src: '/case-studies/fitness-hero.jpg',
+      alt: 'Row of dumbbells on a rack in a modern gym with a member training'
+    },
+    metrics: METRICS['forge-athletic'],
+    client: 'Forge Athletic',
+    location: 'Denver, CO',
+    timeline: '10 weeks',
+    services: ['Short-form content strategy', 'Reels production system', 'Trial funnel', 'Community growth'],
+    tech: ['Instagram', 'TikTok', 'CapCut', 'Later', 'Linktree'],
     outcomes: [
-      'Established a repeatable 60-day content calendar.',
-      'Improved engagement rate within the first month.',
-      'Built a sustainable production workflow for internal teams.'
+      'Built a filming-and-publishing rhythm the coaches sustain without an agency babysitting them.',
+      'Reels became the studio’s number-one source of first-time trial bookings.',
+      'Turned an engaged-but-small following into consistent local discovery and walk-ins.'
     ],
     sections: [
       {
         type: 'text',
-        heading: 'Overview',
+        heading: 'The brief',
         body: [
-          'Flowstate had strong product retention but inconsistent social visibility. The goal was to rebuild the entire content architecture and hand off a clear production system.'
+          "Forge Athletic had the thing money can't buy: a genuine community. Classes were full of regulars, the coaching was excellent, and members loved the place. But growth had stalled. Their social was a mix of overproduced graphics and motivational quotes that looked like every other gym and reached almost no one new.",
+          "The opportunity was obvious the moment we walked in: the energy on the training floor was the marketing. We just had to build a system to capture it consistently and put it in front of the right local people."
         ]
       },
       {
         type: 'list',
-        heading: 'Objectives',
+        heading: 'What we set out to do',
         items: [
-          'Define content pillars that map directly to product value.',
-          'Ship a template library for rapid weekly publishing.',
-          'Establish metrics and cadence to measure growth.'
+          'Shift the strategy from polished graphics to authentic, floor-level short-form video.',
+          'Give the coaches a filming formula simple enough to run between classes.',
+          'Reach people within a few miles of the studio who have never heard of it.',
+          'Connect that reach to a frictionless trial-class booking flow.'
         ]
       },
       {
         type: 'research',
-        heading: 'Research & Insights',
+        heading: 'What the research told us',
         findings: [
           {
-            title: 'Audience needs tangible outcomes',
-            insight: 'Posts with clear “before/after” benefits performed best.',
-            evidence: 'Engagement rose 2.1x on outcome-driven formats.'
+            title: 'Reels are the local discovery engine',
+            insight:
+              'Short-form video is the one format that reliably reaches non-followers nearby. For a location-based business, that is exactly the audience that becomes members.',
+            evidence: 'Reels are the highest-reach format on Instagram, surfaced to non-followers by interest and location.'
           },
           {
-            title: 'Consistency beats spikes',
-            insight: 'A steady cadence outperformed occasional viral pushes.',
-            evidence: '4-week test showed higher follower retention with 3x weekly cadence.'
+            title: 'Authenticity outperforms production',
+            insight:
+              'Real members, real classes, and genuinely funny moments beat glossy edits. We built for consistency and honesty over cinematic polish.',
+            evidence: 'Studios crediting social growth report that showing up regularly matters more than being perfect.'
           },
           {
-            title: 'Visual templates reduce bottlenecks',
-            insight: 'Prebuilt templates cut production time by more than half.',
-            evidence: 'Design time per post dropped from 3 hours to 70 minutes.'
+            title: 'Short-form drives real membership',
+            insight:
+              'For boutique studios, a large share of new members can trace their first contact to a single video. We treated each Reel as a top-of-funnel ad with a clear next step.',
+            evidence: 'At one studio, 200+ of 600+ members traced their first contact back to a short video.'
           }
         ]
       },
       {
         type: 'list',
-        heading: 'Solution',
+        heading: 'The system we built',
+        body: ['A content engine designed to run on ten minutes a day, not a production budget.'],
         items: [
-          'Repositioned the brand voice and page structure for clarity.',
-          'Built pillar-based content calendars with testing loops.',
-          'Delivered a 60-day template library with guidance.'
+          'Three content pillars: class energy, coach expertise, and member transformations.',
+          'A 30-second Reel formula: one class, three angles, energy-matched music, ending on a booking CTA frame.',
+          'A shot-list card the coaches keep at the desk so filming never depends on inspiration.',
+          'A trial funnel: bio link to a single-purpose booking page, with DM and comment CTAs baked into every post.',
+          'A first-30-days measurement plan tracking bio-link clicks, DM volume, and trial bookings.'
+        ]
+      },
+      {
+        type: 'gallery',
+        heading: 'Inside the work',
+        images: [
+          {
+            src: '/case-studies/fitness-1.jpg',
+            alt: 'Member performing a workout in a gym',
+            caption: 'Class energy captured as native short-form video.'
+          },
+          {
+            src: '/case-studies/fitness-2.jpg',
+            alt: 'Weights and equipment on a gym floor',
+            caption: 'A repeatable filming formula the coaches run themselves.'
+          },
+          {
+            src: '/case-studies/fitness-3.jpg',
+            alt: 'Athlete lifting weights in a training session',
+            caption: 'Every post ends on a trial-booking call to action.'
+          }
         ]
       },
       {
         type: 'list',
-        heading: 'Deliverables',
+        heading: 'The 10-week rollout',
         items: [
-          'Content playbook with pillar strategy and tone guidelines.',
-          'Template library for LinkedIn and Instagram formats.',
-          'Dashboard for tracking engagement and conversion metrics.'
+          'Weeks 1-2: strategy reset, pillar definition, and the Reel formula.',
+          'Weeks 3-5: filming systems on the floor and first publishing sprint.',
+          'Weeks 6-8: iterate on hooks and CTAs against the booking numbers.',
+          'Weeks 9-10: hand over the shot-list system, calendar, and metrics dashboard.'
+        ]
+      },
+      {
+        type: 'quote',
+        quote:
+          "It finally feels like us. The videos are real classes with real members, and new people are walking in saying they saw us on Instagram. My coaches can actually keep it going.",
+        attribution: 'Studio Owner',
+        role: 'Forge Athletic'
+      }
+    ]
+  }),
+  createProject({
+    slug: 'ember-kitchen',
+    title: 'Ember Kitchen: From Empty Tables to a Waitlist',
+    summary:
+      'A neighbourhood restaurant with great food and quiet weeknights. We built a social and booking system around crave-worthy content and one-tap reservations, and filled the room.',
+    description:
+      'A social-to-reservation system for a neighbourhood restaurant: appetite-driven content, reservation links in every story, and a booking flow that turned discovery into filled tables.',
+    tags: ['Hospitality', 'Social Media', 'Reservations'],
+    industry: 'Restaurant & Hospitality',
+    hero: {
+      src: '/case-studies/restaurant-hero.jpg',
+      alt: 'Warmly lit upscale restaurant dining room'
+    },
+    metrics: METRICS['ember-kitchen'],
+    client: 'Ember Kitchen',
+    location: 'Portland, OR',
+    timeline: '12 weeks',
+    services: ['Social media strategy', 'Food content direction', 'Reservation funnel', 'Local discovery'],
+    tech: ['Instagram', 'TikTok', 'Google Business Profile', 'OpenTable', 'CapCut'],
+    outcomes: [
+      'Made weeknight covers predictable instead of hoping for walk-ins.',
+      'Turned social profiles into a direct booking channel with reservation links everywhere.',
+      'Built a content library and calendar the front-of-house team maintains between services.'
+    ],
+    sections: [
+      {
+        type: 'text',
+        heading: 'The brief',
+        body: [
+          "Ember Kitchen served some of the best food in the neighbourhood to a half-empty dining room on weeknights. Weekends were fine; Tuesday through Thursday were painful. Their Instagram was a graveyard of dim phone photos of plates, and there was no way to go from 'that looks good' to 'table booked'.",
+          "Restaurants live and die on appetite and convenience. The plan was to make the food look irresistible, put it in front of hungry locals, and remove every step between craving and reservation."
         ]
       },
       {
         type: 'list',
-        heading: 'Outcomes',
+        heading: 'What we set out to do',
         items: [
-          'Follower growth accelerated within the first 30 days.',
-          'Content production time reduced by 50%+',
-          'Inbound product demo requests increased after rollout.'
+          'Direct genuinely appetising content: the dishes, the room, the people, the moments.',
+          'Reach nearby diners and lift the restaurant’s local discovery footprint.',
+          'Put a reservation link in front of every viewer, everywhere they encounter the brand.',
+          'Give the team a content routine that fits around a live service.'
         ]
+      },
+      {
+        type: 'research',
+        heading: 'What the research told us',
+        findings: [
+          {
+            title: 'People, not just plates',
+            insight:
+              'The best-performing restaurant content shows people enjoying the room, not only overhead shots of food. We directed content around the experience, not just the dish.',
+            evidence: 'Photos featuring people perform ~44% better than food-only posts.'
+          },
+          {
+            title: 'Booking links convert cravings',
+            insight:
+              'A hungry viewer will book if the path is one tap. We put reservation links in stories, bio, and profile, and treated every post as a booking prompt.',
+            evidence: 'Restaurants using stories with reservation links see ~41% higher conversion to actual bookings.'
+          },
+          {
+            title: 'Carousels and short video win the feed',
+            insight:
+              'Multi-image carousels and Reels earn the most reach and engagement for food content, so we built the calendar around them.',
+            evidence: 'Instagram carousels earn the highest median engagement (~6.9%); Reels reach ~2.25x more people than single images.'
+          }
+        ]
+      },
+      {
+        type: 'list',
+        heading: 'The system we built',
+        body: ['A content-to-reservation loop designed to fill the quiet nights first.'],
+        items: [
+          'A dish-and-experience content plan: signature plates, behind-the-pass moments, and full-room energy.',
+          'A carousel + Reels calendar weighted toward weekends and holidays, when food content performs best.',
+          'Reservation links wired into every story, the bio, and the Google Business Profile.',
+          'A local-discovery push: geotags, neighbourhood hashtags, and an optimised Google profile.',
+          'A lightweight capture routine so front-of-house shoots usable content during real service.'
+        ]
+      },
+      {
+        type: 'gallery',
+        heading: 'Inside the work',
+        images: [
+          {
+            src: '/case-studies/restaurant-1.jpg',
+            alt: 'A warm, industrial-style restaurant dining room',
+            caption: 'The room and the experience, not just the food.'
+          },
+          {
+            src: '/case-studies/restaurant-2.jpg',
+            alt: 'Guests filling a bright, open dining space',
+            caption: 'People and full-room energy in every post.'
+          },
+          {
+            src: '/case-studies/restaurant-3.jpg',
+            alt: 'An overhead view of plated signature dishes',
+            caption: 'Appetite-first direction on the signature dishes.'
+          }
+        ]
+      },
+      {
+        type: 'list',
+        heading: 'The 12-week rollout',
+        items: [
+          'Weeks 1-3: brand and profile refresh, content direction, and reservation-link setup.',
+          'Weeks 4-8: content sprints during live service and a consistent posting cadence.',
+          'Weeks 9-11: double down on the formats and dishes driving bookings.',
+          'Week 12: hand over the calendar, shot list, and a simple weekly review.'
+        ]
+      },
+      {
+        type: 'quote',
+        quote:
+          "Weeknights used to be dead. Now people come in holding up their phone saying 'I saw this dish and booked a table.' That sentence pays our rent.",
+        attribution: 'Owner & Head Chef',
+        role: 'Ember Kitchen'
       }
     ]
   })
@@ -349,14 +613,19 @@ const PROJECT_POSITION = Object.fromEntries(PROJECT_SLUGS.map((slug, index) => [
 
 const getProjectAt = (index: number): Project | null => projects[index] ?? null;
 
-export const projectCaseStudies = projects.map(({ slug, title, description, tags, metrics, featured }) => ({
-  slug,
-  title,
-  description,
-  tags,
-  metrics,
-  featured
-})) satisfies readonly CaseStudy[];
+export const projectCaseStudies = projects.map(
+  ({ slug, title, description, tags, metrics, featured, industry, hero }) => ({
+    slug,
+    title,
+    description,
+    tags,
+    metrics,
+    featured,
+    industry,
+    image: hero.src,
+    imageAlt: hero.alt
+  })
+) satisfies readonly CaseStudy[];
 
 export const getProjectBySlug = <S extends ProjectSlug>(slug: S): Project | null => PROJECT_INDEX[slug] ?? null;
 

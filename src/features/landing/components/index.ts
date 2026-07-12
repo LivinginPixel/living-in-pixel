@@ -1,5 +1,4 @@
 export { ContactSection } from './ContactSection';
-export { CustomCursor } from './CustomCursor';
 export { HeroSection } from './HeroSection';
 export { Logo } from './Logo';
 export { MarqueeStrip } from './MarqueeStrip';
@@ -8,5 +7,6 @@ export { ProcessSection } from './ProcessSection';
 export { SectionHeading } from './SectionHeading';
 export { ServicesSection } from './ServicesSection';
 export { SiteFooter } from './SiteFooter';
+export { SocialIcon } from './SocialIcon';
 export { TestimonialsSection } from './TestimonialsSection';
 export { WorkSection } from './WorkSection';

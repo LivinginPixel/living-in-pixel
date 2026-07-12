@@ -1,7 +1,7 @@
 export const SITE_NAME = "Living in Pixel";
 export const SITE_SHORT_NAME = "LiP";
 export const SITE_DESCRIPTION =
-  "Living in Pixel builds high-performance digital products, brand systems, and growth-focused web experiences for startups and founders.";
+  "Living in Pixel is a digital growth studio. We build social media systems, lead generation, and brand content that bring customers through the door for real estate, automotive, fitness, and hospitality businesses.";
 
 const rawSiteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://livinginpixel.com";

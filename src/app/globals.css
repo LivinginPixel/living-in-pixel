@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html {
@@ -13,101 +13,39 @@ html {
 body {
   @apply bg-bg font-body text-textMain antialiased;
   overflow-x: hidden;
-  cursor: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-.cursor {
-  width: 10px;
-  height: 10px;
-  background: #5282ff;
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+h1, h2, h3 {
+  text-wrap: balance;
 }
 
-.cursor-ring {
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(82, 130, 255, 0.4);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: transform 0.18s ease, width 0.3s, height 0.3s;
-}
-
-body:hover .cursor {
-  opacity: 1;
-}
-
-.marquee-wrap {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 20px 0;
-  overflow: hidden;
-  background: #0e0e16;
-}
-
-.marquee-track {
-  display: flex;
-  gap: 0;
-  animation: marquee 22s linear infinite;
-  white-space: nowrap;
-}
-
-.marquee-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 24px;
-  padding: 0 40px;
-  font-family: 'Unbounded', sans-serif;
-  font-size: 12px;
-  font-weight: 300;
-  letter-spacing: 2px;
-  color: #555;
-  text-transform: uppercase;
-}
-
-.marquee-item .sep {
-  width: 4px;
-  height: 4px;
-  background: #5282ff;
-  border-radius: 50%;
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes barGrow {
-  from {
-    transform: scaleY(0);
-    transform-origin: bottom;
-  }
-  to {
-    transform: scaleY(1);
-    transform-origin: bottom;
-  }
-}
-
+/* Reveal-on-scroll is a progressive enhancement: content is visible by
+   default (no-JS / no IntersectionObserver stays readable) and only the
+   `.js` gate applied by the client hides it until it scrolls into view. */
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.js .reveal {
   opacity: 0;
-  transform: translateY(36px);
+  transform: translateY(30px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.reveal.visible {
+.js .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 @keyframes backPulse {

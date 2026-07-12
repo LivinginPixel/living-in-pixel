@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { SITE_DESCRIPTION, SITE_NAME, SITE_SHORT_NAME, SITE_URL, toAbsoluteUrl } from '../lib/seo';
 import './globals.css';
-import { GlobalCursor } from '../components/navigation/GlobalCursor';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -17,11 +16,12 @@ export const metadata: Metadata = {
     canonical: '/'
   },
   keywords: [
-    'software engineering agency',
-    'startup web development',
-    'brand identity design',
-    'social media architecture',
-    'product development'
+    'digital marketing agency',
+    'social media management',
+    'real estate social media marketing',
+    'car dealership lead generation',
+    'small business marketing agency',
+    'brand and content systems'
   ],
   authors: [{ name: SITE_NAME, url: SITE_URL }],
   creator: SITE_NAME,
@@ -70,24 +70,24 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#06060b'
+  themeColor: '#ffffff'
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <script
+          dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Cabinet+Grotesk:wght@300;400;500;700;800&family=Instrument+Serif:ital@0;1&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body>
-        <GlobalCursor />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

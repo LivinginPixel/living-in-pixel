@@ -42,7 +42,7 @@ const renderSection = (section: LegalSection): ReactNode => {
     case 'list':
       return (
         <section key={section.heading} className="space-y-3">
-          <h2 className="font-display text-2xl text-white">{section.heading}</h2>
+          <h2 className="font-display text-2xl font-semibold text-ink">{section.heading}</h2>
           {renderSectionBody(section.body)}
           <ul className="list-disc space-y-2 pl-5 text-base leading-7 text-textMain">
             {section.items.map((item) => (
@@ -54,7 +54,7 @@ const renderSection = (section: LegalSection): ReactNode => {
     case 'text':
       return (
         <section key={section.heading} className="space-y-3">
-          <h2 className="font-display text-2xl text-white">{section.heading}</h2>
+          <h2 className="font-display text-2xl font-semibold text-ink">{section.heading}</h2>
           {renderParagraphs(section.body)}
         </section>
       );
@@ -104,7 +104,7 @@ export function LegalPage({ content }: Readonly<{ content: LegalPageContent }>) 
         <header className="space-y-4">
           <p className="text-xs uppercase tracking-[2px] text-muted">Legal</p>
           <div className="space-y-3">
-            <h1 className="font-display text-4xl font-bold text-white">{content.title}</h1>
+            <h1 className="font-display text-4xl font-semibold text-ink">{content.title}</h1>
             <p className="text-sm text-muted">Last updated: {content.lastUpdated}</p>
           </div>
           <div className="space-y-3">{renderParagraphs(content.intro)}</div>
@@ -112,7 +112,7 @@ export function LegalPage({ content }: Readonly<{ content: LegalPageContent }>) 
 
         {content.sections.map((section) => renderSection(section))}
 
-        <nav aria-label="Legal pagination" className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-8">
+        <nav aria-label="Legal pagination" className="flex flex-wrap items-center justify-between gap-4 border-t border-border pt-8">
           <div>{nav.prev ? <PagerLink rel="prev" route={nav.prev.route} /> : null}</div>
           <div>{nav.next ? <PagerLink rel="next" route={nav.next.route} /> : null}</div>
         </nav>
