@@ -14,10 +14,26 @@ export const contactEmail = "hello@livinginpixel.com";
 export const whatsappNumber = "10000000000";
 
 export const socialLinks: SocialLink[] = [
-  { platform: "instagram", href: "https://instagram.com/livinginpixel", label: "Instagram" },
-  { platform: "facebook", href: "https://facebook.com/livinginpixel", label: "Facebook" },
-  { platform: "tiktok", href: "https://tiktok.com/@livinginpixel", label: "TikTok" },
-  { platform: "whatsapp", href: `https://wa.me/${whatsappNumber}`, label: "WhatsApp" },
+  {
+    platform: "instagram",
+    href: "https://instagram.com/livinginpixel",
+    label: "Instagram",
+  },
+  {
+    platform: "facebook",
+    href: "https://facebook.com/livinginpixel",
+    label: "Facebook",
+  },
+  {
+    platform: "tiktok",
+    href: "https://tiktok.com/@livinginpixel",
+    label: "TikTok",
+  },
+  {
+    platform: "whatsapp",
+    href: `https://wa.me/${whatsappNumber}`,
+    label: "WhatsApp",
+  },
 ];
 
 export const navLinks: NavLink[] = [
@@ -121,7 +137,7 @@ export const testimonials: Testimonial[] = [
       "Same budget, completely different result. We can finally see which ads put people on the lot, and the follow-up means we are not letting leads go cold.",
     initials: "AM",
     name: "General Manager",
-    role: "Apex Motors",
+    role: "Aquazaine Motors",
   },
   {
     quote:
